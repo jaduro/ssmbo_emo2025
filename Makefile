@@ -125,4 +125,4 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 # Rule for linking the final executable from a list of objects.
 $(TARGET): $(OBJS)
-	$(LINK_CXX) $^ -o $@ $(BOOST_LIBS) $(TIGON_LIB) $(LDFLAGS)
+	$(LINK_CXX) $^ -o $@ $(BOOST_LIBS) $(TIGON_LIBS) $(LDFLAGS)
