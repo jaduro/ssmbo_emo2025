@@ -736,7 +736,12 @@ int main(int argc, char* argv[])
                   << "  numberSamples default (MParEGO only): " << numberSamples << "\n";
     };
 
-    if(algoName != "Random" && algoName != "Sobol" && algoName != "ParEGO" && algoName != "MParEGO") {
+    // This ensures that ParEGO is not picked instead of MParEGO
+    if (algoName == "MParEGO") {
+        algoName = "MPar";
+    }
+
+    if(algoName != "Random" && algoName != "Sobol" && algoName != "ParEGO" && algoName != "MPar") {
         print_usage(argv[0]);
         return -1;
     }
@@ -751,7 +756,7 @@ int main(int argc, char* argv[])
             bmk_Sobol_BBOBBIOBJ(budget, instanceID, functionID, nInputs, instanceID);
         } else if(algoName == "ParEGO") {
             bmk_ParEGO_BBOBBIOBJ(budget, instanceID, functionID, nInputs, instanceID, sFunc);
-        } else if(algoName == "MParEGO") {
+        } else if(algoName == "MPar") {
             bmk_MParEGO_BBOBBIOBJ(budget, instanceID, functionID, nInputs, instanceID, sFunc, numberSamples);
         } else {
             print_usage(argv[0]);
