@@ -1,10 +1,7 @@
 BOOST_VERSION=1_89_0
 
 BOOST_HOME=$(HOME)/software/boost/boost_$(BOOST_VERSION)
-BOOST_LIB=$(BOOST_HOME)/stage/lib
 BOOST_INCLUDE=-isystem $(BOOST_HOME)
-BOOST_LIB_DIR=-L$(BOOST_LIB)
-BOOST_LIBS=-lboost_filesystem
 
 TIGON_HOME=$(HOME)/liger/ce/liger-ce
 TIGON_LIB=$(TIGON_HOME)/build/Desktop_Qt_5_15_8_GCC_64bit-Release/bin
@@ -12,4 +9,4 @@ TIGON_INCLUDE=-I$(TIGON_HOME)/src/libs
 TIGON_LIB_DIR=-L$(TIGON_LIB)
 TIGON_LIBS=-lTigon -lJson -lCsdp -lCoco
 
-LDFLAGS=-Wl,--disable-new-dtags -Wl,-rpath -Wl,$(BOOST_LIB) -Wl,-rpath -Wl,$(TIGON_LIB)
+LDFLAGS=-Wl,--disable-new-dtags -Wl,-rpath -Wl,$(TIGON_LIB)

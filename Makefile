@@ -76,7 +76,7 @@ DEPENDS=$(OBJS:.o=.d)
 # Variables used to control how C/CXX files are compiled, or how binaries are linked
 COMPILE_C = $(CXX) $(CFLAGS) $(C_CXX_FLAGS) $(INCLUDE)
 COMPILE_CXX = $(CXX) $(CXXFLAGS) $(C_CXX_FLAGS) $(INCLUDE)
-LINK_CXX = $(CXX) $(CXXFLAGS) $(C_CXX_FLAGS) $(BOOST_LIB_DIR) $(TIGON_LIB_DIR)
+LINK_CXX = $(CXX) $(CXXFLAGS) $(C_CXX_FLAGS) $(TIGON_LIB_DIR)
 
 # ------------
 
@@ -125,4 +125,4 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 # Rule for linking the final executable from a list of objects.
 $(TARGET): $(OBJS)
-	$(LINK_CXX) $^ -o $@ $(BOOST_LIBS) $(TIGON_LIBS) $(LDFLAGS)
+	$(LINK_CXX) $^ -o $@ $(TIGON_LIBS) $(LDFLAGS)

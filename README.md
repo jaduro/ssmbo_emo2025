@@ -13,10 +13,13 @@ The C++ code in this repository runs two Bayesian multi-objective optimisation a
 
 This repository also provides a Python jupyter notebook for computing the target-based Empirical Cumulative Distribution Function (ECDF), which is used to assess the performance of the optimisation algorithms. The same jupyter notebook generates the cartesian plots that show the "anytime" performance of the optimisation algorithms, and this follows the same format suggested by the COCO library.
 
+## Requirements
 
-## Compilation and Run
 
-To compile the C++ code with the default parameters
+
+## Compile and Run
+
+To compile the C++ code with the default parameters type
 ```shell
 make
 ```
