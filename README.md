@@ -2,7 +2,91 @@
 
 ## Introduction
 
-Source code for reproducing the results of the manuscript: **Surrogate Strategies for Scalarisation-based Multi-objective Bayesian Optimizers**. 
+Source code for reproducing the results of the manuscript titled: **Surrogate Strategies for Scalarisation-based Multi-objective Bayesian Optimizers** (full reference below). 
 
-A supplementary file with all the results is available in https://jduro.ddns.net/EMO2025/SupQingyuEMO2025.pdf.
+The C++ code in this repository runs two Bayesian multi-objective optimisation algorithms, known as ParEGO and MParEGO. The first follows the original ParEGO framework, first published by Joshua Knowles in 2006, that is: for a given multi-objective solution set the performance of each solution is first scalarised with respect to a direction vector; and then a single surrogate model that maps the decision variables to the solutions' scalarised performance is build. MParEGO adopts a different strategy, that is, a surrogate model is build for each objective separately, and then the performance of each solution is scalarised with respect to all the surrogated objectives. 
 
+The optimisation algorithms are applied to the benchmark problems from the bbob-biobj test suite, and in total there are 55 bi-objective problems. The implementation of the optimisation algorithms is provided by the C++ Tigon optimisation library, which is part of the Liger software (https://ligerdev.shef.ac.uk/liger-development-team/liger-ce). The implementation of the bi-objective bbobj test suite is provided by the C/C++ COCO library (see https://github.com/numbbo/coco). Besides ParEGO and MParEGO, there is also two design of experiments (DoE) techniques that can be used for comparison, namely Random Search and Sobol. The user is able to select: 
+1. The optimisation algorithm, and the options are: Random, Sobol, ParEGO, and MParEGO. 
+2. The optimisation budget (i.e. the number of function evaluations); 
+3. The bbob-biobj problem (the available problems range from F1-F55);
+4. The number of decision variables (or inputs), and; 
+5. The number of samples for Monte Carlo estimation. The option only applies to MParEGO.  
+
+This repository also provides a Python jupyter notebook for computing the target-based Empirical Cumulative Distribution Function (ECDF), which is used to assess the performance of the optimisation algorithms. The same jupyter notebook generates the cartesian plots that show the "anytime" performance of the optimisation algorithms, and this follows the same format adopted by the COCO library.
+
+## Dependencies and Setup 
+
+The C++ code depends on the Tigon optimisation library which is provided by the Liger software. Instructions for compiling and installing Liger are provided in the link above. In short, Liger requires Qt5 and the Boost library, besides the C++ standard library. 
+
+For compiling the C++ code there is a Makefile provided together with an env file. The latter contains the environmental variables needed for compilation. There are three important environmental variables, namely:
+- BOOST_HOME: path of the Boost library folder (this should contain the boost folder with all includes)
+- TIGON_HOME: path of the Liger source code
+- TIGON_LIB: path to the compiled Liger libraries 
+
+When Liger is compiled, several libraries are created but this project only depends on: Tigon, Json, Csdp and Coco. Note that these libraries are provided by the Liger software, and there is no need to compile the COCO library separately. Depending on the user system is configured, these paths may need to be edited.
+
+The Python notebook requires Python (>=3.8) with matplotlib and numpy packages. See the requirements.txt file provided. 
+
+## Compile and Run
+
+Once the above dependencies have been satisfies and the setup is done, the code can be compiled by simply typying:
+```shell
+make
+```
+If the compilation completes successfully then a binary file, namely./bin/ssmbo_emo2025.exe, is created. All the compilation objects including the binary can be deleted by the provide clean to the make command:
+```shell
+make clean
+```
+There are several options available when running this software as mentioned above, these are shown by the following command
+```shell
+./bin/ssmbo_emo2025.exe -h
+```
+where the expected output is
+```
+Usage: ./bin/ssmbo_emo2025.exe <algorithm> [budget] [functionID] [nInputs] [numberSamples]
+  algorithm: Random | Sobol | ParEGO | MParEGO
+  budget default: 1000
+  functionID default: 54
+  nInputs default: 3
+  numberSamples default (MParEGO only): 200
+```
+
+To run the user simply needs to type:
+```shell
+./bin/ssmbo_emo2025.exe
+```
+this will run this software with the default parameters, and these are: Random Search, for a budget of 1000 functions evaluations, functionID is 54 (i.e. F54), 3 decision variables, and the number of samples is 200.
+
+In case the user wishes to run MParEGO on F1 with 5 decision variables on a budget of 100 function evaluations and 250 samples for Monte Carlo simulation then type:
+```shell
+./bin/ssmbo_emo2025.exe MParEGO 100 1 5 250
+```
+
+The results from the above runs are saved in the outputs folder in Json formatted files. A separate optimisation run is conducted for each problem instance, for a total of 15 instances. The results are separated into two files: evaluations and population. The first contains all evaluations in a format that only shows the inputs and corresponding outputs for the optimisation problems considered. This can be useful if the user wishes to compute several performance indicators besides the hypervolume. The population also contains the evaluations in a different format, and also the ICoco performance indicator, which is based on hypervolume.
+
+To clear the outputs folder type:
+```shell
+make clean_data
+```
+
+## Supplementary file
+
+A supplementary file with all the results generated by this software for the above manuscript are available in https://jduro.ddns.net/EMO2025/SupQingyuEMO2025.pdf.
+
+## Contributing
+
+For queries or suggestions, please contact the developer:
+- João A. Duro: j.a.duro@sheffield.ac.uk
+
+## License
+
+This software is Copyright (C) 2025 The University of Sheffield (www.sheffield.ac.uk).
+
+The software is free software (software libre); you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License (LGPL) version 3 as published by the Free Software Foundation. Please review the following information to ensure the GNU Lesser General Public License version 3 requirements will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+Although this software is distributed as free software,  it does not excuse you from scientific propriety, which obligates you to give appropriate credit! If you write a scientific paper describing research that made substantive use of this program, it is your obligation as a scientist to (a) mention the fashion in which this software was used in the Methods section; (b) mention the algorithm in the References section. The appropriate citation is:
+
+Mo, Q.; Duro, J. A.; and Purshouse, R. C., Surrogate Strategies for Scalarisation-based Multi-objective Bayesian Optimizers, In: Singh, H., et al. Evolutionary Multi-Criterion Optimization. EMO 2025. Lecture Notes in Computer Science, vol 15513. Springer, Singapore. https://doi.org/10.1007/978-981-96-3538-2_10 

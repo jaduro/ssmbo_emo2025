@@ -1,0 +1,4 @@
+.vscode
+outputs/*
+notebooks/.idea
+notebooks/venv

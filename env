@@ -1,0 +1,10 @@
+BOOST_HOME=/usr/include/boost
+BOOST_INCLUDE=-isystem $(BOOST_HOME)
+
+TIGON_HOME=$(HOME)/liger/ce/liger-ce
+TIGON_LIB=$(TIGON_HOME)/build/Desktop_Qt_5_15_15_GCC_64bit-Release/bin
+TIGON_INCLUDE=-I$(TIGON_HOME)/src/libs
+TIGON_LIB_DIR=-L$(TIGON_LIB)
+TIGON_LIBS=-lTigon -lJson -lCsdp -lCoco
+
+LDFLAGS=-Wl,--disable-new-dtags -Wl,-rpath -Wl,$(TIGON_LIB)
