@@ -24,15 +24,17 @@ For compiling the C++ code there is a Makefile provided together with an env fil
 - TIGON_HOME: path of the Liger source code
 - TIGON_LIB: path to the compiled Liger libraries 
 
-From the existing Liger library the ones needed are Tigon, Json, Csdp and COCO. Note that these libraries are provided by the Liger software, and there is no need to compile the COCO library seperately.  
+When Liger is compiled, several libraries are created but this project only depends on: Tigon, Json, Csdp and Coco. Note that these libraries are provided by the Liger software, and there is no need to compile the COCO library separately. Depending on the user system is configured, these paths may need to be edited.
+
+The Python notebook requires Python (>=3.8) with matplotlib and numpy packages. See the requirements.txt file provided. 
 
 ## Compile and Run
 
-To compile the C++ code with the default parameters type
+Once the above dependencies have been satisfies and the setup is done, the code can be compiled by simply typying:
 ```shell
 make
 ```
-To clear all the compilation objects and also the binary
+If the compilation completes successfully then a binary file, namely./bin/ssmbo_emo2025.exe, is created. All the compilation objects including the binary can be deleted by the provide clean to the make command:
 ```shell
 make clean
 ```
@@ -40,7 +42,7 @@ There are several options available when running this software as mentioned abov
 ```shell
 ./bin/ssmbo_emo2025.exe -h
 ```
-And the expected output is
+where the expected output is
 ```
 Usage: ./bin/ssmbo_emo2025.exe <algorithm> [budget] [functionID] [nInputs] [numberSamples]
   algorithm: Random | Sobol | ParEGO | MParEGO
@@ -50,6 +52,23 @@ Usage: ./bin/ssmbo_emo2025.exe <algorithm> [budget] [functionID] [nInputs] [numb
   numberSamples default (MParEGO only): 200
 ```
 
+To run the user simply needs to type:
+```shell
+./bin/ssmbo_emo2025.exe
+```
+this will run this software with the default parameters, and these are: Random Search, for a budget of 1000 functions evaluations, functionID is 54 (i.e. F54), 3 decision variables, and the number of samples is 200.
+
+In case the user wishes to run MParEGO on F1 with 5 decision variables on a budget of 100 function evaluations and 250 samples for Monte Carlo simulation then type:
+```shell
+./bin/ssmbo_emo2025.exe MParEGO 100 1 5 250
+```
+
+The results from the above runs are saved in the outputs folder in Json formatted files. A separate optimisation run is conducted for each problem instance, for a total of 15 instances. The results are separated into two files: evaluations and population. The first contains all evaluations in a format that only shows the inputs and corresponding outputs for the optimisation problems considered. This can be useful if the user wishes to compute several performance indicators besides the hypervolume. The population also contains the evaluations in a different format, and also the ICoco performance indicator, which is based on hypervolume.
+
+To clear the outputs folder type:
+```shell
+make clean_data
+```
 
 ## Supplementary file
 
