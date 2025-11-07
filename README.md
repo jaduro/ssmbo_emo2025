@@ -4,18 +4,27 @@
 
 Source code for reproducing the results of the manuscript titled: **Surrogate Strategies for Scalarisation-based Multi-objective Bayesian Optimizers** (full reference below). 
 
-The C++ code in this repository runs two Bayesian multi-objective optimisation algorithms, known as ParEGO and MParEGO, on benchmark problems from the bbob-biobj test suite, for a total of 55 bi-objective problems. The implementation of the optimisation algorithms is provided by the C++ Tigon optimisation library, which is part of the Liger software (see https://ligerdev.shef.ac.uk/liger-development-team/liger-ce). The implementation of the bi-objective bbobj test suite is provided by the C/C++ COCO library (see https://github.com/numbbo/coco). Besides ParEGO and MParEGO, there is also two design of experiment (DoE) techniques that can be used for comparison, namely Random Search and Sobol. The user is able to select: 
+The C++ code in this repository runs two Bayesian multi-objective optimisation algorithms, known as ParEGO and MParEGO. The first follows the original ParEGO framework, first published by Joshua Knowles in 2006, that is: for a given multi-objective solution set the performance of each solution is first scalarised with respect to a direction vector; and then a single surrogate model that maps the decision variables to the solutions' scalarised performance is build. MParEGO adopts a different strategy, that is, a surrogate model is build for each objective separately, and then the performance of each solution is scalarised with respect to all the surrogated objectives. 
+
+The optimisation algorithms are applied to the benchmark problems from the bbob-biobj test suite, and in total there are 55 bi-objective problems. The implementation of the optimisation algorithms is provided by the C++ Tigon optimisation library, which is part of the Liger software (https://ligerdev.shef.ac.uk/liger-development-team/liger-ce). The implementation of the bi-objective bbobj test suite is provided by the C/C++ COCO library (see https://github.com/numbbo/coco). Besides ParEGO and MParEGO, there is also two design of experiments (DoE) techniques that can be used for comparison, namely Random Search and Sobol. The user is able to select: 
 1. The optimisation algorithm, and the options are: Random, Sobol, ParEGO, and MParEGO. 
 2. The optimisation budget (i.e. the number of function evaluations); 
 3. The bbob-biobj problem (the available problems range from F1-F55);
 4. The number of decision variables (or inputs), and; 
 5. The number of samples for Monte Carlo estimation. The option only applies to MParEGO.  
 
-This repository also provides a Python jupyter notebook for computing the target-based Empirical Cumulative Distribution Function (ECDF), which is used to assess the performance of the optimisation algorithms. The same jupyter notebook generates the cartesian plots that show the "anytime" performance of the optimisation algorithms, and this follows the same format suggested by the COCO library.
+This repository also provides a Python jupyter notebook for computing the target-based Empirical Cumulative Distribution Function (ECDF), which is used to assess the performance of the optimisation algorithms. The same jupyter notebook generates the cartesian plots that show the "anytime" performance of the optimisation algorithms, and this follows the same format adopted by the COCO library.
 
-## Requirements
+## Dependencies and Setup 
 
+The C++ code depends on the Tigon optimisation library which is provided by the Liger software. Instructions for compiling and installing Liger are provided in the link above. In short, Liger requires Qt5 and the Boost library, besides the C++ standard library. 
 
+For compiling the C++ code there is a Makefile provided together with an env file. The latter contains the environmental variables needed for compilation. There are three important environmental variables, namely:
+- BOOST_HOME: path of the Boost library folder (this should contain the boost folder with all includes)
+- TIGON_HOME: path of the Liger source code
+- TIGON_LIB: path to the compiled Liger libraries 
+
+From the existing Liger library the ones needed are Tigon, Json, Csdp and COCO. Note that these libraries are provided by the Liger software, and there is no need to compile the COCO library seperately.  
 
 ## Compile and Run
 
